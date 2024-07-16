@@ -523,6 +523,36 @@
                             d3.selectAll("#"+ id+ '_viz').attr("stroke-width", 1.5);
                             d3.select(this).attr("opacity", 0);
                             return tooltip.style("visibility", "hidden");
+                        })
+                        .on("click", function() {
+                            document.getElementById("countryinfo").style.padding = '';
+                            d3.selectAll("#legend2").remove();
+                            d3.selectAll("#removing").remove();
+                            document.getElementById("countryname").innerHTML = '';
+                            document.getElementById("countryflag").scr = '';
+                            document.getElementById("countryflag").style.height = '';
+                            document.getElementById("countrybtn").innerHTML = '';
+
+                            let cont = Object.keys(continents)[i];
+                            let labelElement = document.getElementById("continent");
+                            labelElement.innerHTML = cont;
+                            
+                            let country_list = Object.values(data)
+                            .filter(
+                                r => r.Continent == cont
+                            ).map(
+                                r => r.Country
+                            );
+                            var select = document.getElementById("countries");
+                            select.innerHTML = '<option disabled selected value> -- select a country -- </option>';
+                            
+                            for(var j = 0; j < country_list.length; j++) {
+                                var c = country_list[j];
+                                var el = document.createElement("option");
+                                el.textContent = c;
+                                el.value = c;
+                                select.appendChild(el);
+                            } 
                         });
                     
                     
@@ -542,6 +572,36 @@
                         })
                         .on("mouseout", function() {
                             return tooltip.style("visibility", "hidden");
+                        })
+                        .on("click", function() {
+                            document.getElementById("countryinfo").style.padding = '';
+                            d3.selectAll("#legend2").remove();
+                            d3.selectAll("#removing").remove();
+                            document.getElementById("countryname").innerHTML = '';
+                            document.getElementById("countryflag").scr = '';
+                            document.getElementById("countryflag").style.height = '';
+                            document.getElementById("countrybtn").innerHTML = '';
+
+                            let cont = Object.keys(continents)[i];
+                            let labelElement = document.getElementById("continent");
+                            labelElement.innerHTML = cont;
+                            
+                            let country_list = Object.values(data)
+                            .filter(
+                                r => r.Continent == cont
+                            ).map(
+                                r => r.Country
+                            );
+                            var select = document.getElementById("countries");
+                            select.innerHTML = '<option disabled selected value> -- select a country -- </option>';
+                            
+                            for(var j = 0; j < country_list.length; j++) {
+                                var c = country_list[j];
+                                var el = document.createElement("option");
+                                el.textContent = c;
+                                el.value = c;
+                                select.appendChild(el);
+                            } 
                         });
                     
                 }
