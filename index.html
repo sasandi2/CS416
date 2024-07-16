@@ -1,7 +1,9 @@
 <html>
-    <head><link rel="preconnect" href="https://fonts.googleapis.com">
+    <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"></head>
+        <link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    </head>
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.5.1/d3-annotation.min.js" integrity="sha512-iBAeBWWWFb8HqSBcrqcz98iIpuVH1la39dEYHtyQ/pGpeCQTQVvLJOWAuhv2Q7JSHp9k7hWA7sGxU3hHJe+tFg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <style>
@@ -18,7 +20,7 @@
         flex-direction: column;
         margin-right: auto;
     }
-    #countrybox {
+    .countrybox {
         display: flex;
         flex-direction: row;
     }
@@ -26,15 +28,50 @@
         margin-top: 10px;
     }
     #countryinfo {
-        background-color:lightgray;
+        background-color:#8BA9C3;
+    }
+    #instructions {
+        margin-top: 15px;
+        width: 40%
+    }
+    button {
+        background-color: rgba(200, 200, 200, 0.3);
+        border-radius: 8px;
+        border-width: 0;
+        color: #333333;
+        cursor: pointer;
+        display: inline-block;
+        font-family: "PT Serif", serif;
+        font-size: 12px;
+        font-weight: bold;
+        line-height: 20px;
+        list-style: none;
+        margin: 0;
+        padding: 5px;
+        text-align: center;
+        transition: all 200ms;
+        vertical-align: baseline;
+        white-space: nowrap;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
     }
     body {
-        font-family: "Noto Sans", sans-serif;
+        font-family: "PT Serif", serif;
+        background-color: #EDFDFF;
     }
-    .svg-container {
+    .svg-container-1 {
         display: inline-block;
         position: relative;
-        width: 50%;
+        width: 55%;
+        padding-bottom: 27%;
+        vertical-align: top;
+        overflow: hidden;
+    }
+    .svg-container-2 {
+        display: inline-block;
+        position: relative;
+        width: 55%;
         padding-bottom: 27%;
         vertical-align: top;
         overflow: hidden;
@@ -48,19 +85,31 @@
     svg {
         margin-top: 10px;
     }
+    .heading {
+        margin: 0px;
+        padding: 30px;
+        background-color: #8BA9C3;
+    }
 </style>
 <body>
-
     <title>GDP per capita of Countries and Regions</title>
-
-    <h2>GDP per capita of Countries and Regions</h2>
+    <div class="heading">
+        <h2>GDP per capita of Countries and Regions</h2>
+    </div>
     <div id="charts">
-        <div id="chart1" class="svg-container">
-            <svg id="svg1"></svg>
-        </div>
 
-        <div id="countrybox">
-            <div id="chart2" class="svg-container">
+        <div class="countrybox">
+            <div id="chart1" class="svg-container-1">
+                <svg id="svg1"></svg>
+            </div>
+            <div id="instructions">
+                <p>The chart on the left shows the GDP per capita of different continents and regions of the world and the entire world. Click on a line to see more details about the countries that belong to the corresponding continent or region.</p>
+            </div>
+        </div>
+        
+
+        <div class="countrybox">
+            <div id="chart2" class="svg-container-2">
                     <label id="continent" for="countries">Select a continent line from the chart</label>
                     <select name="countries" id="countries">
                         <option disabled selected value> -- select a country -- </option>
@@ -77,20 +126,20 @@
 
     <script>
 
-        const margin = { top: 20, right: 30, bottom: 50, left: 60 },
-                        width = 960 - margin.left - margin.right,
-                        height = 500 - margin.top - margin.bottom;
+        const margin = { top: 20, right: 30, bottom: 50, left: 80 },
+                        width = 1280 - margin.left - margin.right,
+                        height = 600 - margin.top - margin.bottom;
 
         const svg1 = d3.select("#svg1")
                     .attr("preserveAspectRatio", "xMinYMin meet")
-                    .attr("viewBox", "0 0 960 500")
+                    .attr("viewBox", "0 0 1280 600")
                     .classed("svg-content-responsive", true)
                     .append("g")
                     .attr("transform", `translate(${margin.left},${margin.top})`);
 
         const svg2 = d3.select("#svg2")
                     .attr("preserveAspectRatio", "xMinYMin meet")
-                    .attr("viewBox", "0 0 960 500")
+                    .attr("viewBox", "0 0 1280 600")
                     .classed("svg-content-responsive", true)
                     .append("g")
                     .attr("transform", `translate(${margin.left},${margin.top})`);
@@ -295,12 +344,12 @@
                                 },
                                 type: d3.annotationCalloutRect,
                                 subject: {
-                                    width: 150,
-                                    height: 450,
+                                    width: 210,
+                                    height: 525,
                                 },
                                 id: "annotation",
                                 x: x(parseTime(2024)),
-                                y: y(80000),
+                                y: y(77000),
                                 dy: 50,
                                 dx: 0
                             }
@@ -500,10 +549,12 @@
                 // Add the X Axis
                 svg1.append("g")
                 .attr("transform", `translate(0,${height})`)
+                .style("font-size", "14px")
                 .call(d3.axisBottom(x).ticks(d3.timeYear.every(1)));
 
                 // Add the Y Axis
                 svg1.append("g")
+                .style("font-size", "14px")
                 .call(d3.axisLeft(y));
 
                 // Add labels
@@ -545,9 +596,11 @@
 
                 svg2.append("g")
                 .attr("transform", `translate(0,${height})`)
+                .style("font-size", "14px")
                 .call(d3.axisBottom(x).ticks(d3.timeYear.every(1)));
 
                 svg2.append("g")
+                .style("font-size", "14px")
                 .call(d3.axisLeft(y2));
 
                 svg2.append("text")
